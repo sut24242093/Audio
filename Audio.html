@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thou Art My Melody</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Garamond", serif;
+      background: #f3efe2;
+      color: #3e2f1c;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+    }
+
+    .player {
+      background: #fffbe7;
+      border: 3px solid #3e2f1c;
+      padding: 2em;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      max-width: 360px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .disc-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 1em auto;
+    }
+
+    .disc {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-image: url('https___images.genius.com_10b3a5d752f24f8b7a61ce4e8d60c25d.600x600x1.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 5px solid #c2b280;
+      animation: spin 5s linear infinite;
+      animation-play-state: paused;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .audio-container {
+      background: #ede4c6;
+      border: 2px dashed #8b6f47;
+      border-radius: 12px;
+      padding: 1em;
+      margin-top: 1em;
+    }
+
+    .audio-container::before {
+      content: '🎶 Press play and let sweet music charm thy soul 🎶';
+      display: block;
+      margin-bottom: 0.5em;
+      font-size: 0.95em;
+      color: #5a4732;
+      font-style: italic;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      margin-top: 1em;
+    }
+
+    .custom-play {
+      background: #8b6f47;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5em 1em;
+      font-size: 1em;
+      cursor: pointer;
+      font-family: "Garamond", serif;
+      transition: background 0.3s;
+    }
+
+    .custom-play:hover {
+      background: #a88d65;
+    }
+
+    .timeline {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 8px;
+      background: #c2b280;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .timeline::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #5a4732;
+      border: 2px solid #fffbe7;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .quote {
+      font-style: italic;
+      margin-top: 1em;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Thou Art My Melody</h1>
+  <div class="player">
+    <div class="disc-container">
+      <div class="disc" id="disc"></div>
+    </div>
+    <div class="audio-container">
+      <audio id="audio-player">
+        <source src="Drift Away - Steven Universe Omnichord Cover-yt.savetube.me.mp3" type="audio/mp3" />
+        Alas! Thy browser knoweth not the tune.
+      </audio>
+      <div class="controls">
+        <button class="custom-play" onclick="togglePlay()">🎼 Play Yon Tune 🎼</button>
+        <input type="range" id="seekbar" class="timeline" value="0" min="0" step="1">
+      </div>
+    </div>
+    <div class="quote">“I never heard so musical a discord, such sweet thunder.” – A Midsummer Night’s Dream</div>
+  </div>
+
+  <script>
+    const audio = document.getElementById('audio-player');
+    const disc = document.getElementById('disc');
+    const playBtn = document.querySelector('.custom-play');
+    const seekbar = document.getElementById('seekbar');
+
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play();
+        disc.style.animationPlayState = 'running';
+        playBtn.textContent = '⏸️ Pause Yon Tune';
+      } else {
+        audio.pause();
+        disc.style.animationPlayState = 'paused';
+        playBtn.textContent = '🎼 Play Yon Tune 🎼';
+      }
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      seekbar.max = audio.duration;
+      seekbar.value = audio.currentTime;
+    });
+
+    seekbar.addEventListener('input', () => {
+      audio.currentTime = seekbar.value;
+    });
+  </script>
+</body>
+
+</html>
